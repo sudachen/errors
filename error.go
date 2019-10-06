@@ -167,7 +167,7 @@ func Errorf(format string, a ...interface{}) *Error {
 }
 
 // Error returns the underlying error's message.
-func (err *Error) Error() string {
+func (err *Error) ErrorMsg() string {
 
 	msg := err.Err.Error()
 	if err.prefix != "" {
@@ -198,7 +198,11 @@ func (err *Error) Callers() []uintptr {
 // ErrorStack returns a string that contains both the
 // error message and the callstack.
 func (err *Error) ErrorStack() string {
-	return err.TypeName() + " " + err.Error() + "\n" + string(err.Stack())
+	return err.TypeName() + " " + err.ErrorMsg() + "\n" + string(err.Stack())
+}
+
+func (err *Error) Error() string {
+	return err.ErrorStack()
 }
 
 // StackFrames returns an array of frames containing information about the
